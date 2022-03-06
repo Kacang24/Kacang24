@@ -1,8 +1,20 @@
-# Stripe keys
-STRIPE_PUBLISHABLE_KEY=pk_live_51KR9pNHUhMG4O3VamYiVYmh7qnY7Nf2x5oaENOZuuP18t0FVoinvUzB04nRO6ahvwGDDlWmgkvA3WgWnblSRKNb6003D3B5r0V
-STRIPE_SECRET_KEY=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
-STRIPE_CLIENT_ID=acct_1KR9pNHUhMG4O3Va
-STRIPE_WEBHOOK_SECRET=whsec_b3d7059f76397c2401e340fc3382b9bd76cbc5263458e8214083acd195176beb'
+@@ -0,0 +1,29 @@
+.env
+.DS_Store
+.vscode
 
-# Environment variables 
-STATIC_DIR=../../client 
+# Node files
+node_modules/
+
+# Ruby files
+Gemfile.lock
+
+# Python files
+__pycache__
+venv
+
+# PHP files
+vendor
+logs
+
+# Typescript
