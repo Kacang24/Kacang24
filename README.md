@@ -1,5 +1,3 @@
-package com.stripe.example
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
