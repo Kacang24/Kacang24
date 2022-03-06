@@ -1,56 +1,23 @@
-    private val clickListener: ReaderClickListener
-
-
-    private var readers: List<Reader> = listOf()
-
-    fun updateReaders(readers: List<Reader>) {
-        this.readers = readers
-        notifyDataSetChanged()
-    }
-
-    override fun getItemCount(): Int {
-        return readers.size
-    }
-
-    override fun onBindViewHolder(holder: ReaderHolder, position: Int) {
-        holder.view.text = readers[position].serialNumber
-        holder.view.setOnClickListener {
-            clickListener.onClick(readers[position])
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReaderHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_item_reader, parent, false) as MaterialButton
-        return ReaderHolder(view)
-    }
-} val readerCallback = object: ReaderCallback {
-            override fun onSuccess(reader: Reader) {
-                activityRef.get()?.let {
-                    it.runOnUiThread {
-                        // Update UI with connection success
-                        it.updateReaderConnection(isConnected = true)
-                    }
-                }
-            }
-
-            override fun onFailure(e: TerminalException) {
-                activityRef.get()?.let {
-                    it.runOnUiThread {
-                        // Update UI with connection failure
-                        Toast.makeText(
-                            it,
-                            "Failed to connect to reader",
-                            Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
-            }
-        }
-        Terminal.getInstance().connectInternetReader(
-            reader,
-            connectionConfig,
-            readerCallback,
-        )
-    }
-}
+# Available as a gem
+sudo gem install stripe
+# Set your secret key. Remember to switch to your live secret key in production.
+# See your keys here: https://dashboard.stripe.com/apikeys
+Stripe.api_key = 'pk_live_51KR9pNHUhMG4O3VamYiVYmh7qnY7Nf2x5oaENOZuuP18t0FVoinvUzB04nRO6ahvwGDDlWmgkvA3WgWnblSRKNb6003D3B5r0V'
+Stripe::Account.create(type: 'express')
+Stripe::AccountLink.create(
+  account: 'acct_1KZx9XQd3njzEtbq
+',
+  refresh_url: 'https://github.com/Kacang24/conncet.refresh',
+  return_url: 'https://github.com/Kacang24/conncet.return',
+  type: 'account_onboarding',
+)
+<html>
+  <head>
+    <title>Checkout</title>
+  </head>
+  <body>
+    <form action="/create-checkout-session" method="POST">
+      <button type="submit">Checkout</button>
+    </form>
+  </body>
+</html>
