@@ -1,22 +1,51 @@
-import stripe
 
-stripe.scaret_key = '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'
-Stripe.api_key = 'pk_live_51KR9pNHUhMG4O3VamYiVYmh7qnY7Nf2x5oaENOZuuP18t0FVoinvUzB04nRO6ahvwGDDlWmgkvA3WgWnblSRKNb6003D3B5r0V'
-Stripe::Account.create(type: 'express')
-Stripe::AccountLink.create(
-  account: 'acct_1KZx9XQd3njzEtbq
-',
-  refresh_url: 'https://github.com/Kacang24/conncet.refresh',
-  return_url: 'https://github.com/Kacang24/conncet.return',
-  type: 'account_onboarding',
-)
-<html>
-  <head>
-    <title>Checkout</title>
-  </head>
-  <body>
-    <form action="/create-checkout-session" method="POST">
-      <button type="submit">Checkout</button>
-    </form>
-  </body>
-</html>
+
+    // Set your secret key. Remember to switch to your live secret key in production!
+    // See your keys here: https://dashboard.stripe.com/apikeys
+    Stripe.apiKey = "sk_test_51KR9pNHUhMG4O3VaCbZbJ93DqH5HeLvroq7I6I8Y2d1kvPkeCWMRI3gqrRMbkit5ONDkf5IiZ8ccosJsdV48YcWJ00amlmFtgA";
+    post("/webhook", (request, response) -> {
+      String payload = request.body();
+      String sigHeader = request.headers("Stripe-Signature");
+
+      // If you are testing your webhook locally with the Stripe CLI you
+      // can find the endpoint's secret by running `stripe listen`
+      // Otherwise, find your endpoint's secret in your webhook settings in the Developer Dashboard
+      String endpointSecret = "whsec_...";
+
+      Event event = null;
+
+      // Verify webhook signature and extract the event.
+      // See https://stripe.com/docs/webhooks/signatures for more information.
+      try {
+        event = Webhook.constructEvent(
+          payload, sigHeader, endpointSecret
+        );
+      } catch (JsonSyntaxException e) {
+      // Invalid payload.
+        response.status(400);
+        return "";
+      } catch (SignatureVerificationException e) {
+      // Invalid Signature.
+        response.status(400);
+        return "";
+      }
+
+      if ("payment_intent.succeeded".equals(event.getType())) {
+        // Deserialize the nested object inside the event
+        EventDataObjectDeserializer dataObjectDeserializer = event.getDataObjectDeserializer();
+        PaymentIntent paymentIntent = null;
+        if (dataObjectDeserializer.getObject().isPresent()) {
+          PaymentIntent paymentIntent = (PaymentIntent) dataObjectDeserializer.getObject().get();
+          String connectedAccountId = event.getAccount();
+          handleSuccessfulPaymentIntent(connectedAccountId, paymentIntent);
+        } else {
+          // Deserialization failed, probably due to an API version mismatch.
+          // Refer to the Javadoc documentation on `EventDataObjectDeserializer` for
+          // instructions on how to handle this case, or return an error here.
+        }
+      }
+
+      response.status(200);
+      return "";
+    });
+
