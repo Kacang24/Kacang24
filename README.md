@@ -24,10 +24,7 @@
             .inflate(R.layout.list_item_reader, parent, false) as MaterialButton
         return ReaderHolder(view)
     }
-}
-
-
-        val readerCallback = object: ReaderCallback {
+} val readerCallback = object: ReaderCallback {
             override fun onSuccess(reader: Reader) {
                 activityRef.get()?.let {
                     it.runOnUiThread {
