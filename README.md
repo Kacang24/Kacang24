@@ -1,32 +1,51 @@
-import json
-import os
-import stripe
+# Connect direct charges
+This Stripe sample shows you how to process a Connect [direct charge](https://stripe.com/docs/connect/direct-charges) using Stripe elements.
+Before using this sample, you should have onboarded at least one Connect account. For more about onboarding accounts and making Connect charges, read our [step-by-step Connect guide](https://stripe.com/docs/connect/enable-payment-acceptance-guide#accept-payment).
+![demo](.readme/screenshot.png)
+## How to run locally
+This sample includes 5 server implementations in Node, Ruby, Python, Java, and PHP.
+Follow the steps below to run locally.
+**1. Clone and configure the sample**
+**Using the Stripe CLI**
+If you haven't already installed the CLI, follow the [installation steps](https://github.com/stripe/stripe-cli#installation) in the project README. The CLI is useful for cloning samples and locally testing webhooks and Stripe integrations.
+In your terminal shell, run the Stripe CLI command to clone the sample:
+```
+stripe samples create connect-direct-charge
+```
+The CLI will walk you through picking your integration type, server and client languages. Make sure to configure your .env file as shown below.
+**Installing and cloning manually**
+If you do not want to use the Stripe CLI, you can manually clone the sample yourself:
+```
+git clone https://github.com/stripe-samples/connect-direct-charge
+```
+Make sure to configure your .env file as shown below.
+**Configuring your .env file**
+Copy the .env.example file into a file named .env in the folder of the server you want to use. For example:
+```
+cp .env.example server/node/.env
+```
+You will need a Stripe account in order to run the demo. Once you set up your account, go to the Stripe [developer dashboard](https://stripe.com/docs/development/quickstart#api-keys) to find your API keys.
+```
+STRIPE_PUBLISHABLE_KEY=<replace-with-your-publishable-key>
+STRIPE_SECRET_KEY=<replace-with-your-secret-key>
+```
+`STATIC_DIR` tells the server where to the client files are located and does not need to be modified unless you move the server files.
+**2. Follow the server instructions on how to run:**
+Pick the server language you want and follow the instructions in the server folder README on how to run.
+For example, if you want to run the Node server:
+```
+cd server/node # there's a README in this folder with instructions
+npm install
+npm start
+```
+## FAQ
+Q: Why did you pick these frameworks?
+A: We chose the most minimal framework to convey the key Stripe calls and concepts you need to understand. These demos are meant as an educational tool that helps you roadmap how to integrate Stripe within your own system independent of the framework.
+## Get support
+If you found a bug or want to suggest a new [feature/use case/sample], please [file an issue](../../issues).
 
-from flask import Flask, jsonify, request
-
-# This is your Stripe CLI webhook secret for testing your endpoint locally.
-endpoint_secret = 'whsec_b3d7059f76397c2401e340fc3382b9bd76cbc5263458e8214083acd195176beb'
-
-app = Flask(__name__)
-
-@app.route('/webhook', methods=['POST'])
-def webhook():
-    event = None
-    payload = request.data
-    sig_header = request.headers['STRIPE_SIGNATURE']
-
-    try:
-        event = stripe.Webhook.construct_event(
-            payload, sig_header, endpoint_secret
-        )
-    except ValueError as e:
-        # Invalid payload
-        raise e
-    except stripe.error.SignatureVerificationError as e:
-        # Invalid signature
-        raise e
-
-    # Handle the event
-    print('Unhandled event type {}'.format(event['type']))
-
-    return jsonify(success=True)
+If you have questions, comments, or need help with code, we're here to help:
+- on [Discord](https://stripe.com/go/developer-chat)
+- on Twitter at [@StripeDev](https://twitter.com/StripeDev)
+- on Stack Overflow at the [stripe-payments](https://stackoverflow.com/tags/stripe-payments/info) tag
+- by [email](mailto:support+github@stripe.com)
