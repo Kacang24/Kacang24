@@ -1,9 +1,3 @@
-
-// A simple [RecyclerView.ViewHolder] that contains a representation of each discovered reader
-class ReaderHolder(val view: MaterialButton) : RecyclerView.ViewHolder(view)
-
-// Our [RecyclerView.Adapter] implementation that allows us to update the list of readers
-class ReaderAdapter(
     private val clickListener: ReaderClickListener
 ) : RecyclerView.Adapter<ReaderHolder>() {
 
