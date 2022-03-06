@@ -1,14 +1,3 @@
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.button.MaterialButton
-import com.stripe.stripeterminal.Terminal
-import com.stripe.stripeterminal.external.callable.ReaderCallback
-import com.stripe.stripeterminal.external.models.ConnectionConfiguration
-import com.stripe.stripeterminal.external.models.Reader
-import com.stripe.stripeterminal.external.models.TerminalException
-import java.lang.ref.WeakReference
 
 // A simple [RecyclerView.ViewHolder] that contains a representation of each discovered reader
 class ReaderHolder(val view: MaterialButton) : RecyclerView.ViewHolder(view)
