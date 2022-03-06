@@ -1,7 +1,4 @@
-# Available as a gem
-sudo gem install stripe
-# Set your secret key. Remember to switch to your live secret key in production.
-# See your keys here: https://dashboard.stripe.com/apikeys
+
 Stripe.api_key = 'pk_live_51KR9pNHUhMG4O3VamYiVYmh7qnY7Nf2x5oaENOZuuP18t0FVoinvUzB04nRO6ahvwGDDlWmgkvA3WgWnblSRKNb6003D3B5r0V'
 Stripe::Account.create(type: 'express')
 Stripe::AccountLink.create(
