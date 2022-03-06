@@ -1,5 +1,5 @@
     private val clickListener: ReaderClickListener
-) : RecyclerView.Adapter api key <pk_live_51KR9pNHUhMG4O3VamYiVYmh7qnY7Nf2x5oaENOZuuP18t0FVoinvUzB04nRO6ahvwGDDlWmgkvA3WgWnblSRKNb6003D3B5r0Vr>() {
+
 
     private var readers: List<Reader> = listOf()
 
@@ -26,10 +26,6 @@
     }
 }
 
-class ReaderClickListener(val activityRef: WeakReference<MainActivity>) {
-    fun onClick(reader: Reader) {
-        val connectionConfig =
-            ConnectionConfiguration.InternetConnectionConfiguration(true)
 
         val readerCallback = object: ReaderCallback {
             override fun onSuccess(reader: Reader) {
